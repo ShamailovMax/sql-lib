@@ -5,5 +5,3 @@ query = SQLib() \
     .from_table('tbl') \
     .where("id='291910'") \
     .build()
-
-print(query)
