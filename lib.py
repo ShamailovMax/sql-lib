@@ -1,8 +1,10 @@
 # functions and keywords
-def select() -> str:
-    pass
+from typing import List
 
-def from() -> str:
+def select(fields: List[str]) -> str:
+    return f'select {fields}'
+
+def from_() -> str:
     pass
 
 def where() -> str:
@@ -19,3 +21,6 @@ def having() -> str:
 
 def over(partition_by: str) -> str:
     pass
+
+# sample
+print(select(['*']))
