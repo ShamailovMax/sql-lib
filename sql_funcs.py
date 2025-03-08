@@ -27,16 +27,18 @@ class SQLLibFunctions:
         self.query += f'where {condition} \n'
         return self
 
-    def group_by() -> str:
+    def group_by(self, fields: List[str]) -> 'SQLLibFunctions':
+        self.query += f'group by {", ".join(fields)} \n'
+        return self
+
+    def order_by(self, fields: List[str], sort_order: str = 'asc') -> 'SQLLibFunctions':
+        self.query += f'order by {", ".join(fields)} {sort_order} \n'
+        return self
+
+    def having() -> 'SQLLibFunctions':
         pass
 
-    def order_by() -> str:
-        pass
-
-    def having() -> str:
-        pass
-
-    def over(partition_by: str) -> str:
+    def over(partition_by: str) -> 'SQLLibFunctions':
         pass
 
     def build(self) -> str:
