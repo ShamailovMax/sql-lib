@@ -23,7 +23,7 @@ class SQLLibFunctions:
         self.query += f'from {table} \n'
         return self
 
-    def where(self, condition: str) -> str:
+    def where(self, condition: str) -> 'SQLLibFunctions':
         self.query += f'where {condition} \n'
         return self
 
@@ -35,8 +35,17 @@ class SQLLibFunctions:
         self.query += f'order by {", ".join(fields)} {sort_order} \n'
         return self
 
-    def having() -> 'SQLLibFunctions':
-        pass
+    def having(self, condition: str) -> 'SQLLibFunctions':
+        self.query += f'having {condition} \n'
+        return self
+    
+    def limit(self, limit: int) -> 'SQLLibFunctions':
+        self.query += f'limit {limit} \n'
+        return self
+    
+    def offset(self, offset: int) -> 'SQLLibFunctions':
+        self.query += f'offset {offset} \n'
+        return self
 
     def over(partition_by: str) -> 'SQLLibFunctions':
         pass
