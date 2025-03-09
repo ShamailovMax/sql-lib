@@ -31,3 +31,16 @@ query_5 = SQLib() \
     .select(['*']) \
     .from_table(subquery, 'high_value_orders') \
     .build()
+
+# case-when condition example
+query_6 = SQLib() \
+    .select([
+        'name',
+        SQLib().case(
+            ('age < 18', "'Minor'"),
+            ('age BETWEEN 18 AND 65', "'Adult'"),
+            else_value="'Senior'"
+        ) + ' AS age_group'
+    ]) \
+    .from_table('users') \
+    .build()

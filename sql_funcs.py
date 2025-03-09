@@ -1,5 +1,5 @@
 # functions and keywords
-from typing import List, Union
+from typing import List, Union, Tuple
 import logging
 
 # logging configs
@@ -77,11 +77,20 @@ class SQLLibFunctions:
 
     def subquery(self, subquery: 'SQLLibFunctions', alias: str) -> 'SQLLibFunctions':
         self.query += f'({subquery.build()}) as {alias} \n'
-        return self
+        return f'({subquery})'
+
+    def case(self, *conditions: Tuple[str, str], else_value: str = None) -> 'SQLLibFunctions':
+        case_query = 'case\n'
+        for condition, result in conditions:
+            case_query += f'when {condition} then {result}\n'
+        if else_value:
+            case_query += f'else {else_value}\n'
+        case_query += 'end'
+        return case_query
 
     def over(partition_by: str) -> 'SQLLibFunctions':
         pass
 
     def build(self) -> str:
         self.logger.info(f'Generated SQL query: \n{self.query}')
-        return self.query
+        return self.query.strip()
