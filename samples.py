@@ -44,3 +44,15 @@ query_6 = SQLib() \
     ]) \
     .from_table('users') \
     .build()
+
+# window funcs example
+query = SQLib() \
+    .select([
+        'name',
+        'age',
+        f'ROW_NUMBER() {SQLib().over(partition_by="age", order_by="name")} AS row_num'
+    ]) \
+    .from_table('users') \
+    .build()
+
+print(query)

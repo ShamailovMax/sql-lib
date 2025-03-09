@@ -88,8 +88,15 @@ class SQLLibFunctions:
         case_query += 'end'
         return case_query
 
-    def over(partition_by: str) -> 'SQLLibFunctions':
-        pass
+    # window funcs support
+    def over(self, partition_by: str = None, order_by: str = None) -> 'SQLLibFunctions':
+        over_clause = 'over ('
+        if partition_by:
+            over_clause += f'partition by {partition_by} '
+        if order_by:
+            over_clause += f'order by {order_by}'
+        over_clause += ')'
+        return over_clause
 
     def build(self) -> str:
         self.logger.info(f'Generated SQL query: \n{self.query}')
