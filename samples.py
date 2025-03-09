@@ -17,3 +17,9 @@ query_3 = SQLib() \
     .from_table('tbl_3') \
     .order_by(['uid'], sort_order='desc') \
     .build()
+
+query_4 = SQLib() \
+    .select(['*']) \
+    .from_table('users') \
+    .join('orders', 'users.id = orders.user_id', 'LEFT') \
+    .build()

@@ -47,6 +47,10 @@ class SQLLibFunctions:
         self.query += f'offset {offset} \n'
         return self
 
+    def join(self, table: str, condition: str, join_type: str = 'inner') -> 'SQLLibFunctions':
+        self.query += f'{join_type} join {table} on {condition} \n'
+        return self
+
     def over(partition_by: str) -> 'SQLLibFunctions':
         pass
 
