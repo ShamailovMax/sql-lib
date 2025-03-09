@@ -1,5 +1,5 @@
 # functions and keywords
-from typing import List
+from typing import List, Union
 import logging
 
 # logging configs
@@ -19,8 +19,20 @@ class SQLLibFunctions:
         self.query += f'select {", ".join(fields)} \n'
         return self
 
-    def from_table(self, table: str) -> 'SQLLibFunctions':
-        self.query += f'from {table} \n'
+    def from_table(self, table: Union[str, 'SQLLibFunctions'], alias: str = None) -> 'SQLLibFunctions':
+        # self.query += f'from {table} \n'
+        if isinstance(table, SQLLibFunctions):
+            # if subquery
+            subquery = table.build()
+            self.query += f'from ({subquery})'
+        else:
+            # if table name
+            self.query += f'from {table}'
+
+        if alias:
+            self.query += f' as {alias}'
+        
+        self.query += ' \n'
         return self
 
     def where(self, condition: str) -> 'SQLLibFunctions':
@@ -47,8 +59,24 @@ class SQLLibFunctions:
         self.query += f'offset {offset} \n'
         return self
 
-    def join(self, table: str, condition: str, join_type: str = 'inner') -> 'SQLLibFunctions':
-        self.query += f'{join_type} join {table} on {condition} \n'
+    def join_tables(self, table: Union[str, 'SQLLibFunctions'], condition: str, join_type: str = 'inner', alias: str = None) -> 'SQLLibFunctions':
+        # self.query += f'{join_type} join {table} on {condition} \n'
+        if isinstance(table, SQLLibFunctions):
+            # if subquery
+            subquery = table.build()
+            self.query += f'{join_type} join ({subquery})'
+        else:
+            # if table name
+            self.query += f'{join_type} join {table}'
+
+        if alias:
+            self.query += f' as {alias}'
+
+        self.query += f' on {condition} \n'
+        return self
+
+    def subquery(self, subquery: 'SQLLibFunctions', alias: str) -> 'SQLLibFunctions':
+        self.query += f'({subquery.build()}) as {alias} \n'
         return self
 
     def over(partition_by: str) -> 'SQLLibFunctions':

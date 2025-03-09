@@ -18,8 +18,16 @@ query_3 = SQLib() \
     .order_by(['uid'], sort_order='desc') \
     .build()
 
+# join example
 query_4 = SQLib() \
     .select(['*']) \
     .from_table('users') \
-    .join('orders', 'users.id = orders.user_id', 'LEFT') \
+    .join_tables('orders', 'users.id = orders.user_id', 'LEFT') \
+    .build()
+
+# subquery example
+subquery = SQLib().select(['user_id']).from_table('orders').where('amount > 100')
+query_5 = SQLib() \
+    .select(['*']) \
+    .from_table(subquery, 'high_value_orders') \
     .build()
