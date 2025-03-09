@@ -46,7 +46,7 @@ query_6 = SQLib() \
     .build()
 
 # window funcs example
-query = SQLib() \
+query_7 = SQLib() \
     .select([
         'name',
         'age',
@@ -54,5 +54,3 @@ query = SQLib() \
     ]) \
     .from_table('users') \
     .build()
-
-print(query)
