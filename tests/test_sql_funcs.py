@@ -1,4 +1,6 @@
 import unittest
+import logging
+
 from core.sql_funcs import SQLLibFunctions
 
 # select method test
@@ -6,6 +8,11 @@ class TestSQLlibFunctions(unittest.TestCase):
     # created setUp method not to repeat my code
     def setUp(self):
         self.sql_builder = SQLLibFunctions()
+        # логи грохну пока что
+        logging.disable(logging.CRITICAL)
+        
+    def tearDown(self):
+        logging.disable(logging.NOTSET)
         
     def test_select_single_field(self):
         result = self.sql_builder.select(['name'])
